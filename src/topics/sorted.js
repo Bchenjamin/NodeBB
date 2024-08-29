@@ -266,15 +266,19 @@ module.exports = function (Topics) {
 
 		const cids = params.cids && params.cids.map(String);
 		const { tags } = params;
-		tids = topicData.filter(t => (
-			t &&
-			t.cid &&
-			!isCidIgnored[t.cid] &&
-			(!cids || cids.includes(String(t.cid))) &&
-			(!tags.length || tags.every(tag => t.tags.find(topicTag => topicTag.value === tag)))
-		)).map(t => t.tid);
+
+		function isTopicValid(topic) {
+			return topic &&
+				topic.cid &&
+				!isCidIgnored[topic.cid] &&
+				(!cids || cids.includes(String(topic.cid))) &&
+				(!tags.length || tags.every(tag => topic.tags.find(topicTag => topicTag.value === tag)));
+		}
+
+		tids = topicData.filter(isTopicValid).map(t => t.tid);
 
 		const result = await plugins.hooks.fire('filter:topics.filterSortedTids', { tids: tids, params: params });
+		console.log('Benjamin Chen');
 		return result.tids;
 	}
 
