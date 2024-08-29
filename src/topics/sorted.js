@@ -269,7 +269,7 @@ module.exports = function (Topics) {
 
 		const conditionOne = t => !isCidIgnored[t.cid];
 		const conditionTwo = t => !cids || cids.includes(String(t.cid));
-		const conditionThree = t => !tags.length || tags.every(tag => t.tags.some(topicTag => topicTag.value === tag));
+		const conditionThree = t => tagsMatch(t, tags);
 
 		tids = topicData
 			.filter(t => t && t.cid)
@@ -281,6 +281,13 @@ module.exports = function (Topics) {
 		const result = await plugins.hooks.fire('filter:topics.filterSortedTids', { tids: tids, params: params });
 		console.log('Benjamin Chen');
 		return result.tids;
+	}
+
+	function tagsMatch(t, tags) {
+		if (!tags.length) return true;
+	
+		const topicTagValues = t.tags.map(topicTag => topicTag.value);
+		return tags.every(tag => topicTagValues.includes(tag));
 	}
 
 	async function getTopics(tids, params) {
