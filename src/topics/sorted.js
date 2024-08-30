@@ -272,14 +272,13 @@ module.exports = function (Topics) {
 		const conditionThree = t => tagsMatch(t, tags);
 
 		tids = topicData
-			.filter(t => t && t.cid)
+			.filter(t => t?.cid)
 			.filter(conditionOne)
 			.filter(conditionTwo)
 			.filter(conditionThree)
 			.map(t => t.tid);
 
 		const result = await plugins.hooks.fire('filter:topics.filterSortedTids', { tids: tids, params: params });
-		console.log('Benjamin Chen');
 		return result.tids;
 	}
 
