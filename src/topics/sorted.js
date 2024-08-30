@@ -284,7 +284,6 @@ module.exports = function (Topics) {
 	}
 
 	function tagsMatch(t, tags) {
-		if (!tags.length) return true;
 		// Generated from ChatGpt
 		const topicTagValues = t.tags.map(topicTag => topicTag.value);
 		return tags.every(tag => topicTagValues.includes(tag));
