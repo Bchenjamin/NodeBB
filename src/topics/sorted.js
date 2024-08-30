@@ -272,7 +272,7 @@ module.exports = function (Topics) {
 		const conditionThree = t => tagsMatch(t, tags);
 
 		tids = topicData
-			.filter(t => t?.cid)
+			.filter(t => t && t.cid)
 			.filter(conditionOne)
 			.filter(conditionTwo)
 			.filter(conditionThree)
